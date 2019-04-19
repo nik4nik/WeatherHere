@@ -1,20 +1,43 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<h3 class="bg-primary p-1 text-white">Weather Forecast. You are in {{location}}</h3>
+<div class="bg-primary p-1 text-white">
+    <p *ngIf="localWeather.length == 0">Searching...</p>
+    <div *ngIf="localWeather.length > 0">
+        <table style="width: 100%; text-align: center">
+            <thead></thead>
+            <tbody>
+                <tr>
+                    <td *ngFor="let forecast of localWeather">
+                        <img [src]="forecast.iconLink" />
+                        <p>{{ forecast.highTemperature }}C</p>
+                        <p>{{ forecast.utcTime | moment }}</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<form class="form-inline m-3">
+	<div class="form-group">
+		<label>City:</label>
+		<input class="form-control m-1" #city />
+		<input type="submit" class="btn btn-info" value="Add" (click)="addItem(city.value)"/>
+	</div>
+</form>
+<table class="table table-striped m-3">
+    <thead>
+		<tr class="row">
+            <th class="col-sm-1">№</th>
+            <th class="col-sm-2">City</th>
+            <th class="col-sm-7">Weather</th>
+			<th class="col-sm-1"></th>
+		</tr>
+    </thead>
+    <tbody>
+        <tr  class="row" *ngFor="let item of getSites(); let i = index">
+            <td class="col-sm-1"> {{i + 1}}</td>
+            <td class="col-sm-2">{{item.city}}</td>
+            <td class="col-sm-7">{{item.forecast}}</td> 
+            <td class="col-sm-1"><input type="button" value="-" (click)="removeItem(item)"/></td>
+        </tr>          
+    </tbody>
+</table>
